@@ -52,7 +52,7 @@ We pledge to make participation in our project a harassment-free experience for 
 # Fork the repository on GitHub, then:
 git clone https://github.com/YOUR_USERNAME/ace-framework.git
 cd ace-framework
-git remote add upstream https://github.com/ORIGINAL_OWNER/ace-framework.git
+git remote add upstream https://github.com/jonnabio/ace-framework.git
 ```
 
 ---

@@ -88,7 +88,7 @@ function copyDir(src, dest) {
 
 // Clone from GitHub
 function cloneFromGitHub(targetDir) {
-  const repoUrl = 'https://github.com/OWNER/ace-framework.git';
+  const repoUrl = 'https://github.com/jonnabio/ace-framework.git';
   const tempDir = path.join(targetDir, '.ace-temp');
 
   try {

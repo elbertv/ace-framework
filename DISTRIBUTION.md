@@ -20,7 +20,7 @@ This document explains how to distribute and deploy ACE-Framework to other devel
 #### User Experience
 
 ```
-1. Go to https://github.com/OWNER/ace-framework
+1. Go to https://github.com/jonnabio/ace-framework
 2. Click "Use this template" → "Create a new repository"
 3. Name your project
 4. Clone and start working
@@ -75,17 +75,17 @@ npx create-ace-framework
 
 Host `scripts/init.sh` at a stable URL:
 ```
-https://raw.githubusercontent.com/OWNER/ace-framework/main/scripts/init.sh
+https://raw.githubusercontent.com/jonnabio/ace-framework/main/scripts/init.sh
 ```
 
 #### User Experience
 
 ```bash
 # One-liner installation
-curl -fsSL https://raw.githubusercontent.com/OWNER/ace-framework/main/scripts/init.sh | bash
+curl -fsSL https://raw.githubusercontent.com/jonnabio/ace-framework/main/scripts/init.sh | bash
 
 # Or with wget
-wget -qO- https://raw.githubusercontent.com/OWNER/ace-framework/main/scripts/init.sh | bash
+wget -qO- https://raw.githubusercontent.com/jonnabio/ace-framework/main/scripts/init.sh | bash
 
 # Specify target directory
 curl -fsSL https://...init.sh | bash -s -- my-project

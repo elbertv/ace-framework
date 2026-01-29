@@ -56,9 +56,9 @@ create-ace-framework my-project
 
 ## Links
 
-- [GitHub Repository](https://github.com/OWNER/ace-framework)
-- [Documentation](https://github.com/OWNER/ace-framework#readme)
-- [Report Issues](https://github.com/OWNER/ace-framework/issues)
+- [GitHub Repository](https://github.com/jonnabio/ace-framework)
+- [Documentation](https://github.com/jonnabio/ace-framework#readme)
+- [Report Issues](https://github.com/jonnabio/ace-framework/issues)
 
 ## License
 

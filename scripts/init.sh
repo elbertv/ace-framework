@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # ACE-Framework Initialization Script
-# Usage: curl -fsSL https://raw.githubusercontent.com/OWNER/ace-framework/main/scripts/init.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/jonnabio/ace-framework/main/scripts/init.sh | bash
 # Or: ./scripts/init.sh [target-directory]
 #
 
@@ -15,7 +15,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO_URL="https://github.com/OWNER/ace-framework"
+REPO_URL="https://github.com/jonnabio/ace-framework"
 BRANCH="main"
 
 # Functions
