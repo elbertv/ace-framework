@@ -25,45 +25,27 @@
 
 ## Tasks
 
-### Task 1: [Name]
+<task id="1">
+  <name>[Task Name]</name>
+  <objective>[What is done when this task completes]</objective>
+  <files>
+    <create>[file paths]</create>
+    <modify>[file paths]</modify>
+  </files>
+  <tests>
+    <test>[Test case description]</test>
+  </tests>
+  <acceptance_criteria>
+    <criterion>[Measurable criterion]</criterion>
+  </acceptance_criteria>
+  <complexity>[S | M | L]</complexity>
+  <dependencies>None</dependencies>
+</task>
 
-**Objective:** [What is done when this task completes]
-
-**Files:**
-- Create: [file paths to create]
-- Modify: [file paths to modify]
-
-**Tests:**
-- [ ] [Test case description]
-- [ ] [Test case description]
-
-**Acceptance Criteria:**
-- [ ] [Measurable criterion]
-- [ ] [Measurable criterion]
-
-**Complexity:** [S | M | L]
-
-**Dependencies:** None
-
----
-
-### Task 2: [Name]
-
-**Objective:** [What is done when this task completes]
-
-**Files:**
-- Create: [file paths]
-- Modify: [file paths]
-
-**Tests:**
-- [ ] [Test case description]
-
-**Acceptance Criteria:**
-- [ ] [Measurable criterion]
-
-**Complexity:** [S | M | L]
-
-**Dependencies:** Task 1
+<task id="2">
+  <name>[Task Name]</name>
+  ...
+</task>
 
 ---
 
@@ -88,9 +70,9 @@ After all tasks complete:
 
 ## Risks
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| [Risk] | [H/M/L] | [H/M/L] | [Strategy] |
+| Risk   | Likelihood | Impact  | Mitigation |
+| ------ | ---------- | ------- | ---------- |
+| [Risk] | [H/M/L]    | [H/M/L] | [Strategy] |
 
 ---
 
@@ -102,11 +84,11 @@ After all tasks complete:
 
 ## Approval
 
-| Role | Name | Date | Status |
-|------|------|------|--------|
-| Architect | | | |
-| Stakeholder | | | |
+| Role        | Name | Date | Status |
+| ----------- | ---- | ---- | ------ |
+| Architect   |      |      |        |
+| Stakeholder |      |      |        |
 
 ---
 
-*Implementation Plan - ACE-Framework v2.0*
+_Implementation Plan - ACE-Framework v2.0_

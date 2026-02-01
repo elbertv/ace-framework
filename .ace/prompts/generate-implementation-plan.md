@@ -38,6 +38,7 @@ Based on the completed analysis, generate an IMPLEMENTATION_PLAN.md.
    # Implementation Plan: [Feature Name]
 
    ## Overview
+
    [Brief description of what will be built]
 
    ## Prerequisites
@@ -47,20 +48,28 @@ Based on the completed analysis, generate an IMPLEMENTATION_PLAN.md.
 
    ## Tasks
 
-   ### Task 1: [Name]
-   **Objective:** [What is done when complete]
-   **Files:**
-   - Create: [file paths]
-   - Modify: [file paths]
-   **Tests:**
-   - [ ] [Test description]
-   **Acceptance Criteria:**
-   - [ ] [Criterion]
-   **Complexity:** [S/M/L]
-   **Dependencies:** [Previous tasks or None]
+   ### Tasks
 
-   ### Task 2: [Name]
-   ...
+   <task id="1">
+     <name>[Task Name]</name>
+     <objective>[What is done when complete]</objective>
+     <files>
+       <create>[file path]</create>
+       <modify>[file path]</modify>
+     </files>
+     <tests>
+       <test>[Test description]</test>
+     </tests>
+     <acceptance_criteria>
+       <criterion>[Criterion]</criterion>
+     </acceptance_criteria>
+     <complexity>[S/M/L]</complexity>
+     <dependencies>[Previous task ID]</dependencies>
+   </task>
+
+   <task id="2">
+     ...
+   </task>
 
    ## Verification
    - [ ] All tasks have tests
@@ -76,7 +85,7 @@ Based on the completed analysis, generate an IMPLEMENTATION_PLAN.md.
 
 4. **Review the plan against**:
    - .ace/standards/architecture.md (patterns)
-   - docs/adr/* (existing decisions)
+   - docs/adr/\* (existing decisions)
    - .ace/knowledge/entities.md (domain model)
 
 Do not proceed to implementation until this plan is approved.
@@ -101,6 +110,7 @@ Do not proceed to implementation until this plan is approved.
 ## Expected Output
 
 A complete IMPLEMENTATION_PLAN.md file containing:
+
 - Numbered, ordered tasks
 - Clear acceptance criteria per task
 - Test requirements per task
@@ -126,8 +136,10 @@ Before approving the plan:
 ## Follow-up Prompts
 
 If plan needs revision:
+
 ```markdown
 "Please revise the plan:
+
 - [Specific change needed]
 - [Another change]
 
@@ -135,6 +147,7 @@ Regenerate the affected sections."
 ```
 
 After plan is approved:
+
 ```markdown
 "Plan approved. Proceed to BMAD Phase 3: Execute.
 Begin with Task 1. Update ACTIVE_CONTEXT.md with current state."
@@ -148,4 +161,4 @@ Begin with Task 1. Update ACTIVE_CONTEXT.md with current state."
 
 ---
 
-*Track usage and update success rate*
+_Track usage and update success rate_

@@ -1,4 +1,4 @@
-# ACE-Framework User Guide
+# ACE-Framework User Guide v2.1
 
 > A practical guide to using the AI-assisted Code Engineering Framework.
 
@@ -37,27 +37,36 @@ ACE-Framework (AI-assisted Code Engineering) is a structured methodology for wor
 Every task follows four phases:
 
 ```
-┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
-│ ANALYZE  │───▶│   PLAN   │───▶│ EXECUTE  │───▶│  VERIFY  │
-│          │    │          │    │          │    │          │
-│ Understand│    │ Design   │    │ Build    │    │ Test     │
-│ the task │    │ approach │    │ solution │    │ & check  │
-└──────────┘    └──────────┘    └──────────┘    └──────────┘
+┌───────────────────────────────────────────────────────────────────────┐
+│                          BMAD Cycle                                   │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│   ┌───────┐    ┌───────┐    ┌──────┐    ┌───────┐    ┌──────┐         │
+│   │ANALYZE│───▶│DISCUSS│───▶│ PLAN │───▶│EXECUTE│───▶│VERIFY│         │
+│   └───────┘    └───────┘    └──────┘    └───────┘    └──────┘         │
+│       │                                                   │           │
+│       └──────────────◀────────────────────────────────────┘           │
+│                    (Feedback Loop)                                    │
+│                           │                                           │
+│                    ┌──────┴──────┐                                    │
+│                    │  INCIDENT   │ (When issues found)                │
+│                    └─────────────┘                                    │
+└───────────────────────────────────────────────────────────────────────┘
 ```
 
 **Never skip steps.** This prevents costly mistakes and rework.
 
 ### Key Concepts
 
-| Concept | What It Is | Where It Lives |
-|---------|------------|----------------|
-| Role | AI persona with specific expertise | `.ace/roles/roles.md` |
-| Skill | Procedural knowledge for tasks | `.ace/skills/` |
-| Standard | Rules that must be followed | `.ace/standards/` |
-| Context | Current session state | `docs/context/ACTIVE_CONTEXT.md` |
-| ADR | Recorded architectural decision | `docs/adr/` |
-| RCA | Issue analysis with prevention | `docs/rca/` |
-| Guard | Protection against regression | `docs/rca/regression-guards.yaml` |
+| Concept  | What It Is                         | Where It Lives                    |
+| -------- | ---------------------------------- | --------------------------------- |
+| Role     | AI persona with specific expertise | `.ace/roles/roles.md`             |
+| Skill    | Procedural knowledge for tasks     | `.ace/skills/`                    |
+| Standard | Rules that must be followed        | `.ace/standards/`                 |
+| Context  | Current session state              | `docs/context/ACTIVE_CONTEXT.md`  |
+| ADR      | Recorded architectural decision    | `docs/adr/`                       |
+| RCA      | Issue analysis with prevention     | `docs/rca/`                       |
+| Guard    | Protection against regression      | `docs/rca/regression-guards.yaml` |
 
 ---
 
@@ -88,6 +97,7 @@ Confirm you understand the context, then await instructions."
 ```
 
 **What the AI will do:**
+
 - Load project configuration
 - Understand available roles
 - See where previous work left off
@@ -108,26 +118,37 @@ Summarize ACTIVE_CONTEXT.md and any pending tasks."
 
 ### Workflow A: Starting a New Feature
 
-**Step 1: Enter Planning Mode**
+**Step 1: Analyze & Discuss**
+
 ```markdown
-"Set mode to PLANNING with Architect role.
+"Set mode to ANALYZE with Architect role.
 I need to implement [feature description].
-Analyze the requirements and create an implementation plan."
+Analyze requirements, then run the Discuss phase to align on preferences."
+```
+
+**Step 2: Plan**
+
+```markdown
+"Use the preferences in PROJECT_CONTEXT.md to create an implementation plan.
+Output tasks using the new XML format."
 ```
 
 **Step 2: Review the Plan**
 The AI will create `docs/planning/implementation_plan.md`. Review it:
+
 - Are tasks correctly broken down?
 - Are dependencies in order?
 - Are acceptance criteria clear?
 
 **Step 3: Approve and Execute**
+
 ```markdown
 "The plan is approved. Switch to Developer role and EXECUTION mode.
-Begin with Task 1, checking regression guards first."
+Commit effectively: One atomic commit per task. No batching."
 ```
 
 **Step 4: Verify**
+
 ```markdown
 "Switch to QA Engineer role and VERIFICATION mode.
 Verify the implementation against the acceptance criteria."
@@ -136,18 +157,21 @@ Verify the implementation against the acceptance criteria."
 ### Workflow B: Fixing a Bug
 
 **Step 1: Investigate**
+
 ```markdown
 "I found a bug: [description].
 Investigate the issue and identify potential causes."
 ```
 
 **Step 2: If Simple Fix**
+
 ```markdown
 "This is a simple fix. Implement the fix following coding standards.
 Write a test that would have caught this bug."
 ```
 
 **Step 3: If Complex or Recurring**
+
 ```markdown
 "This needs root cause analysis.
 Switch to INCIDENT mode and apply the RCA skill."
@@ -156,12 +180,14 @@ Switch to INCIDENT mode and apply the RCA skill."
 ### Workflow C: Continuing Previous Work
 
 **Step 1: Load Context**
+
 ```markdown
 "Read ACTIVE_CONTEXT.md and continue from where we left off.
 What are the next steps?"
 ```
 
 **Step 2: Resume Work**
+
 ```markdown
 "Continue with [next task from context].
 Remember to check regression guards for any files we modify."
@@ -180,15 +206,15 @@ Check for standards compliance, security issues, and regression guards."
 
 ### Available Roles
 
-| Role | When to Use | Key Focus |
-|------|-------------|-----------|
-| **Architect** | Planning new features, design decisions | Big picture, patterns, ADRs |
-| **Developer** | Writing code, implementing features | Clean code, tests, standards |
-| **QA Engineer** | Testing, verification | Edge cases, regression |
-| **Incident Responder** | Fixing bugs, investigating issues | RCA, prevention |
-| **Data Scientist** | Analysis, experiments | Statistics, rigor |
-| **AI Expert** | Algorithm design, model work | Theory, optimization |
-| **Scientific Editor** | Writing papers, documentation | Clarity, precision |
+| Role                   | When to Use                             | Key Focus                    |
+| ---------------------- | --------------------------------------- | ---------------------------- |
+| **Architect**          | Planning new features, design decisions | Big picture, patterns, ADRs  |
+| **Developer**          | Writing code, implementing features     | Clean code, tests, standards |
+| **QA Engineer**        | Testing, verification                   | Edge cases, regression       |
+| **Incident Responder** | Fixing bugs, investigating issues       | RCA, prevention              |
+| **Data Scientist**     | Analysis, experiments                   | Statistics, rigor            |
+| **AI Expert**          | Algorithm design, model work            | Theory, optimization         |
+| **Scientific Editor**  | Writing papers, documentation           | Clarity, precision           |
 
 ### Activating a Role
 
@@ -227,6 +253,7 @@ AI Expert → Data Scientist → Scientific Editor
 ### What Are Skills?
 
 Skills are detailed procedures for specific tasks. They contain:
+
 - Step-by-step instructions
 - Checklists
 - Common pitfalls to avoid
@@ -234,15 +261,15 @@ Skills are detailed procedures for specific tasks. They contain:
 
 ### Available Skills
 
-| Skill | Use For |
-|-------|---------|
-| `api-design.md` | Creating REST APIs |
-| `database-operations.md` | Schema changes, queries |
-| `migration-logic.md` | Data/schema migrations |
-| `refactoring.md` | Improving code structure |
-| `root-cause-analysis.md` | Investigating issues |
-| `testing-strategy.md` | Writing tests |
-| `code-review.md` | Reviewing code |
+| Skill                    | Use For                  |
+| ------------------------ | ------------------------ |
+| `api-design.md`          | Creating REST APIs       |
+| `database-operations.md` | Schema changes, queries  |
+| `migration-logic.md`     | Data/schema migrations   |
+| `refactoring.md`         | Improving code structure |
+| `root-cause-analysis.md` | Investigating issues     |
+| `testing-strategy.md`    | Writing tests            |
+| `code-review.md`         | Reviewing code           |
 
 ### Invoking a Skill
 
@@ -252,6 +279,7 @@ for this task. Follow the procedure and checklist."
 ```
 
 **Example:**
+
 ```markdown
 "Apply the database-operations skill for this schema migration.
 Follow the pre-migration checklist and create a rollback plan."
@@ -260,6 +288,7 @@ Follow the pre-migration checklist and create a rollback plan."
 ### Skill Automatic Triggers
 
 Some keywords automatically suggest skills:
+
 - "database", "migration", "schema" → `database-operations.md`
 - "api", "endpoint", "REST" → `api-design.md`
 - "test", "coverage" → `testing-strategy.md`
@@ -273,6 +302,7 @@ Some keywords automatically suggest skills:
 ### The ACTIVE_CONTEXT.md File
 
 This file is the "memory" between sessions. It contains:
+
 - Current objective
 - What's working/broken/blocked
 - Next steps
@@ -281,13 +311,16 @@ This file is the "memory" between sessions. It contains:
 ### Updating Context
 
 **During work:**
+
 ```markdown
 "Update ACTIVE_CONTEXT.md: Task 2 is complete, moving to Task 3."
 ```
 
 **End of session:**
+
 ```markdown
 "Update ACTIVE_CONTEXT.md with:
+
 - Completed: [what was done]
 - Next steps: [what to do next]
 - Notes: [anything important to remember]"
@@ -296,11 +329,13 @@ This file is the "memory" between sessions. It contains:
 ### Reading Context
 
 **At session start:**
+
 ```markdown
 "Read ACTIVE_CONTEXT.md and summarize the current state."
 ```
 
 **To check status:**
+
 ```markdown
 "What is my current objective according to ACTIVE_CONTEXT.md?"
 ```
@@ -319,6 +354,7 @@ This file is the "memory" between sessions. It contains:
 ### When You Find a Bug
 
 **Step 1: Document It**
+
 ```markdown
 "I found an issue: [description]
 Document the symptoms and how to reproduce."
@@ -326,14 +362,15 @@ Document the symptoms and how to reproduce."
 
 **Step 2: Assess Severity**
 
-| Severity | Criteria | Response |
-|----------|----------|----------|
-| Critical | System down, data loss | Immediate fix |
-| High | Major feature broken | Fix today |
-| Medium | Feature degraded | Fix this sprint |
-| Low | Minor issue | Backlog |
+| Severity | Criteria               | Response        |
+| -------- | ---------------------- | --------------- |
+| Critical | System down, data loss | Immediate fix   |
+| High     | Major feature broken   | Fix today       |
+| Medium   | Feature degraded       | Fix this sprint |
+| Low      | Minor issue            | Backlog         |
 
 **Step 3: For Medium+ Issues, Create RCA**
+
 ```markdown
 "Switch to INCIDENT mode.
 Apply root-cause-analysis skill to investigate this issue."
@@ -354,6 +391,7 @@ After fixing an issue:
 ```markdown
 "Create a regression guard for this fix.
 Add to docs/rca/regression-guards.yaml with:
+
 - Guarded files
 - Invariants that must be maintained
 - Tests that verify the fix"
@@ -362,6 +400,7 @@ Add to docs/rca/regression-guards.yaml with:
 ### Checking Guards Before Modifying Files
 
 **Always before editing:**
+
 ```markdown
 "Check if [filename] has a regression guard.
 If so, what invariants must be maintained?"
@@ -376,6 +415,7 @@ If so, what invariants must be maintained?"
 ```markdown
 "Apply the code-review skill to review this code.
 Check against:
+
 - .ace/standards/coding.md
 - .ace/standards/security.md
 - Regression guards for modified files"
@@ -384,6 +424,7 @@ Check against:
 ### Review Checklist
 
 The AI will check:
+
 - [ ] Code standards compliance
 - [ ] Security requirements
 - [ ] Architecture patterns
@@ -394,6 +435,7 @@ The AI will check:
 ### Responding to Feedback
 
 Feedback comes in types:
+
 - **[BLOCKING]** - Must fix before merge
 - **[SUGGESTION]** - Consider improving
 - **[QUESTION]** - Needs clarification
@@ -414,6 +456,7 @@ Read the codebase and suggest an approach."
 
 ```markdown
 "Read the code in [directory] and create documentation:
+
 1. What does this code do?
 2. How does it fit into the system?
 3. What are the key functions/classes?"
@@ -458,6 +501,7 @@ Analyze trade-offs and create an ADR with the recommendation."
 
 ```markdown
 "Update ACTIVE_CONTEXT.md with a complete handoff summary:
+
 - What was accomplished
 - Current state of each component
 - Pending decisions
@@ -472,52 +516,64 @@ Analyze trade-offs and create an ADR with the recommendation."
 ### Do's
 
 ✅ **Start every session by reading context**
+
 ```markdown
 "Read .aceconfig and ACTIVE_CONTEXT.md before we begin."
 ```
 
 ✅ **Use roles appropriately**
+
 - Architect for planning
 - Developer for coding
 - QA for verification
 
 ✅ **Check guards before modifying files**
+
 ```markdown
 "Check regression guards for files I'm about to modify."
 ```
 
 ✅ **Update context frequently**
+
 - After completing tasks
 - When encountering blockers
 - At end of session
 
 ✅ **Create ADRs for decisions**
+
 ```markdown
 "Create an ADR for the decision to use [technology/pattern]."
 ```
 
 ✅ **Follow BMAD**
+
 - Analyze → Plan → Execute → Verify
 - Never skip phases
 
 ### Don'ts
 
 ❌ **Don't skip planning**
+
 - "Just write the code" leads to rework
 
 ❌ **Don't ignore standards**
+
 - Standards exist for good reasons
 
 ❌ **Don't modify guarded files without checking**
+
 - Guards prevent regressions
 
 ❌ **Don't forget to update context**
+
 - Future sessions depend on it
 
 ❌ **Don't mix roles**
+
 - Complete one role's work before switching
 
 ❌ **Don't skip verification**
+
 - Testing catches issues early
 
 ---
@@ -527,6 +583,7 @@ Analyze trade-offs and create an ADR with the recommendation."
 ### Problem: AI doesn't follow project patterns
 
 **Solution:**
+
 ```markdown
 "Read docs/context/system_patterns.md and docs/adr/.
 Follow the established patterns in this codebase."
@@ -535,6 +592,7 @@ Follow the established patterns in this codebase."
 ### Problem: AI suggests conflicting approach
 
 **Solution:**
+
 ```markdown
 "Check if there's an ADR that addresses this.
 If our approach differs, explain why based on project constraints."
@@ -543,12 +601,14 @@ If our approach differs, explain why based on project constraints."
 ### Problem: Lost context between sessions
 
 **Solution:**
+
 ```markdown
 "Read ACTIVE_CONTEXT.md and all files in docs/planning/.
 Reconstruct what was happening and continue."
 ```
 
 If ACTIVE_CONTEXT.md is outdated:
+
 ```markdown
 "The context seems outdated. Read recent git commits and
 reconstruct the current project state."
@@ -557,6 +617,7 @@ reconstruct the current project state."
 ### Problem: AI generates code that violates standards
 
 **Solution:**
+
 ```markdown
 "Verify this code against .ace/standards/coding.md and
 .ace/standards/security.md. Fix any violations."
@@ -565,6 +626,7 @@ reconstruct the current project state."
 ### Problem: Regression after changes
 
 **Solution:**
+
 ```markdown
 "Check docs/rca/regression-guards.yaml for the affected file.
 What invariant was violated? How do we fix it?"
@@ -573,8 +635,10 @@ What invariant was violated? How do we fix it?"
 ### Problem: Unclear requirements
 
 **Solution:**
+
 ```markdown
 "The requirements are unclear. Before proceeding:
+
 1. List what I understand
 2. List what needs clarification
 3. Suggest reasonable assumptions"
@@ -583,6 +647,7 @@ What invariant was violated? How do we fix it?"
 ### Problem: Don't know which skill to use
 
 **Solution:**
+
 ```markdown
 "I need to [task description].
 Which skill in .ace/skills/ would help with this?"
@@ -594,77 +659,77 @@ Which skill in .ace/skills/ would help with this?"
 
 ### Session Commands
 
-| Action | Command |
-|--------|---------|
-| Start session | "Read .aceconfig, roles.md, and ACTIVE_CONTEXT.md" |
-| Check status | "What's the current state per ACTIVE_CONTEXT.md?" |
-| Update context | "Update ACTIVE_CONTEXT.md with [changes]" |
-| End session | "Update ACTIVE_CONTEXT.md and summarize session" |
+| Action         | Command                                            |
+| -------------- | -------------------------------------------------- |
+| Start session  | "Read .aceconfig, roles.md, and ACTIVE_CONTEXT.md" |
+| Check status   | "What's the current state per ACTIVE_CONTEXT.md?"  |
+| Update context | "Update ACTIVE_CONTEXT.md with [changes]"          |
+| End session    | "Update ACTIVE_CONTEXT.md and summarize session"   |
 
 ### Role Commands
 
-| Action | Command |
-|--------|---------|
-| Switch role | "Switch to [Role] role" |
+| Action             | Command                        |
+| ------------------ | ------------------------------ |
+| Switch role        | "Switch to [Role] role"        |
 | Check current role | "What role am I currently in?" |
-| List roles | "What roles are available?" |
+| List roles         | "What roles are available?"    |
 
 ### Mode Commands
 
-| Action | Command |
-|--------|---------|
-| Enter planning | "Set mode to PLANNING" |
-| Enter execution | "Set mode to EXECUTION" |
+| Action             | Command                    |
+| ------------------ | -------------------------- |
+| Enter planning     | "Set mode to PLANNING"     |
+| Enter execution    | "Set mode to EXECUTION"    |
 | Enter verification | "Set mode to VERIFICATION" |
-| Enter incident | "Set mode to INCIDENT" |
+| Enter incident     | "Set mode to INCIDENT"     |
 
 ### Skill Commands
 
-| Action | Command |
-|--------|---------|
-| Apply skill | "Apply [skill-name] skill" |
+| Action      | Command                                      |
+| ----------- | -------------------------------------------- |
+| Apply skill | "Apply [skill-name] skill"                   |
 | List skills | "What skills are available in .ace/skills/?" |
 
 ### Guard Commands
 
-| Action | Command |
-|--------|---------|
-| Check guards | "Check regression guards for [file]" |
-| List all guards | "Show all regression guards" |
-| Create guard | "Create regression guard for this fix" |
+| Action          | Command                                |
+| --------------- | -------------------------------------- |
+| Check guards    | "Check regression guards for [file]"   |
+| List all guards | "Show all regression guards"           |
+| Create guard    | "Create regression guard for this fix" |
 
 ### ADR Commands
 
-| Action | Command |
-|--------|---------|
-| Create ADR | "Create ADR for [decision]" |
-| List ADRs | "List all ADRs" |
+| Action     | Command                                 |
+| ---------- | --------------------------------------- |
+| Create ADR | "Create ADR for [decision]"             |
+| List ADRs  | "List all ADRs"                         |
 | Check ADRs | "Check if there's an ADR about [topic]" |
 
 ### Standard Commands
 
-| Action | Command |
-|--------|---------|
-| Check standards | "Verify against .ace/standards/" |
+| Action            | Command                                  |
+| ----------------- | ---------------------------------------- |
+| Check standards   | "Verify against .ace/standards/"         |
 | Specific standard | "Check against .ace/standards/[name].md" |
 
 ---
 
 ## Appendix: File Locations
 
-| Need | Location |
-|------|----------|
-| Project rules | `.aceconfig` |
-| Role definitions | `.ace/roles/roles.md` |
-| Coding standards | `.ace/standards/coding.md` |
-| Security rules | `.ace/standards/security.md` |
-| Current context | `docs/context/ACTIVE_CONTEXT.md` |
-| System patterns | `docs/context/system_patterns.md` |
+| Need                | Location                               |
+| ------------------- | -------------------------------------- |
+| Project rules       | `.aceconfig`                           |
+| Role definitions    | `.ace/roles/roles.md`                  |
+| Coding standards    | `.ace/standards/coding.md`             |
+| Security rules      | `.ace/standards/security.md`           |
+| Current context     | `docs/context/ACTIVE_CONTEXT.md`       |
+| System patterns     | `docs/context/system_patterns.md`      |
 | Implementation plan | `docs/planning/implementation_plan.md` |
-| ADR template | `docs/adr/ADR-000-template.md` |
-| RCA template | `docs/rca/RCA-000-template.md` |
-| Regression guards | `docs/rca/regression-guards.yaml` |
-| Skills | `.ace/skills/*.md` |
+| ADR template        | `docs/adr/ADR-000-template.md`         |
+| RCA template        | `docs/rca/RCA-000-template.md`         |
+| Regression guards   | `docs/rca/regression-guards.yaml`      |
+| Skills              | `.ace/skills/*.md`                     |
 
 ---
 
@@ -677,5 +742,5 @@ Which skill in .ace/skills/ would help with this?"
 
 ---
 
-*ACE-Framework User Guide v2.0*
-*Treat AI interactions as structured transactions, not casual conversations.*
+_ACE-Framework User Guide v2.1_
+_Treat AI interactions as structured transactions, not casual conversations._

@@ -1,4 +1,5 @@
-# ACE-Framework v2.0
+# ACE-Framework v2.1
+
 ## AI-assisted Code Engineering
 
 > A rigorous, IDE-agnostic standard for professional development teams using AI agents. Treats AI interactions as structured transactions, not casual conversations.
@@ -81,18 +82,18 @@ The repository must contain a `.ace/` directory (AI Context Engine). This is the
 
 ### Directory Purposes
 
-| Directory | Purpose | Mutability |
-|-----------|---------|------------|
-| `.ace/standards/` | Non-negotiable rules | Immutable (ADR required) |
-| `.ace/skills/` | Procedural task knowledge | Append-only |
-| `.ace/roles/` | Agent role definitions | Stable |
-| `.ace/knowledge/` | Domain context | Evolving |
-| `.ace/prompts/` | Tested prompt templates | Versioned |
-| `docs/context/` | Session state | Volatile |
-| `docs/specs/` | Requirements | Controlled |
-| `docs/adr/` | Decision history | Append-only |
-| `docs/rca/` | Issue analysis | Append-only |
-| `docs/planning/` | Implementation artifacts | Per-task |
+| Directory         | Purpose                   | Mutability               |
+| ----------------- | ------------------------- | ------------------------ |
+| `.ace/standards/` | Non-negotiable rules      | Immutable (ADR required) |
+| `.ace/skills/`    | Procedural task knowledge | Append-only              |
+| `.ace/roles/`     | Agent role definitions    | Stable                   |
+| `.ace/knowledge/` | Domain context            | Evolving                 |
+| `.ace/prompts/`   | Tested prompt templates   | Versioned                |
+| `docs/context/`   | Session state             | Volatile                 |
+| `docs/specs/`     | Requirements              | Controlled               |
+| `docs/adr/`       | Decision history          | Append-only              |
+| `docs/rca/`       | Issue analysis            | Append-only              |
+| `docs/planning/`  | Implementation artifacts  | Per-task                 |
 
 ---
 
@@ -103,24 +104,25 @@ The repository must contain a `.ace/` directory (AI Context Engine). This is the
 BMAD enforces **Analyze → Plan → Execute → Verify** to prevent premature implementation.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      BMAD Cycle                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────┐ │
-│   │ ANALYZE  │───▶│   PLAN   │───▶│ EXECUTE  │───▶│VERIFY│ │
-│   └──────────┘    └──────────┘    └──────────┘    └──────┘ │
-│        │                                              │     │
-│        └──────────────◀───────────────────────────────┘     │
-│                     (Feedback Loop)                         │
-│                            │                                │
-│                     ┌──────┴──────┐                         │
-│                     │  INCIDENT   │ (When issues found)     │
-│                     └─────────────┘                         │
-└─────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────┐
+│                          BMAD Cycle                                   │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│   ┌───────┐    ┌───────┐    ┌──────┐    ┌───────┐    ┌──────┐         │
+│   │ANALYZE│───▶│DISCUSS│───▶│ PLAN │───▶│EXECUTE│───▶│VERIFY│         │
+│   └───────┘    └───────┘    └──────┘    └───────┘    └──────┘         │
+│       │                                                   │           │
+│       └──────────────◀────────────────────────────────────┘           │
+│                    (Feedback Loop)                                    │
+│                           │                                           │
+│                    ┌──────┴──────┐                                    │
+│                    │  INCIDENT   │ (When issues found)                │
+│                    └─────────────┘                                    │
+└───────────────────────────────────────────────────────────────────────┘
 ```
 
 #### Phase 1: ANALYZE
+
 ```
 Role: Architect
 Input: docs/specs/*, docs/adr/*, .ace/knowledge/*
@@ -134,7 +136,36 @@ Actions:
 - Check regression guards for affected files
 ```
 
+#### Phase 2: DISCUSS
+
+```
+Role: Architect
+Input: Analysis output, User preferences
+Output: docs/context/PROJECT_CONTEXT.md
+
+Actions:
+- Present multiple options for "gray areas" (UI, API style, etc.)
+- Capture user preference on specific implementation details
+- Document decisions in PROJECT_CONTEXT.md
+- Ensure "Soft Requirements" are explicit before planning
+```
+
+#### Phase 2: DISCUSS
+
+```
+Role: Architect
+Input: Analysis output, User preferences
+Output: docs/context/PROJECT_CONTEXT.md
+
+Actions:
+- Present multiple options for "gray areas" (UI, API style, etc.)
+- Capture user preference on specific implementation details
+- Document decisions in PROJECT_CONTEXT.md
+- Ensure "Soft Requirements" are explicit before planning
+```
+
 #### Phase 2: PLAN
+
 ```
 Role: Architect
 Input: Analysis output
@@ -149,6 +180,7 @@ Actions:
 ```
 
 #### Phase 3: EXECUTE
+
 ```
 Role: Developer
 Input: Approved plan, relevant .ace/skills/*
@@ -163,6 +195,7 @@ Actions:
 ```
 
 #### Phase 4: VERIFY
+
 ```
 Role: QA Engineer
 Input: Completed code, .ace/standards/*, docs/adr/*
@@ -177,6 +210,7 @@ Actions:
 ```
 
 #### INCIDENT Mode
+
 ```
 Role: Incident Responder
 Trigger: Issue discovered at any phase
@@ -196,6 +230,7 @@ Actions:
 Skills are specialized instruction sets in `.ace/skills/` that grant deep technical capabilities.
 
 **Available Skills:**
+
 - `api-design.md` - REST API conventions and patterns
 - `database-operations.md` - Schema changes and queries
 - `migration-logic.md` - Safe data and schema migrations
@@ -204,6 +239,7 @@ Skills are specialized instruction sets in `.ace/skills/` that grant deep techni
 - `testing-strategy.md` - Test pyramid and coverage
 
 **Invocation:**
+
 ```markdown
 "Apply the skill in .ace/skills/[skill-name].md for this task.
 Follow the procedure exactly and report validation results."
@@ -217,15 +253,15 @@ Seven specialized roles for distinct phases of work. Defined in `.ace/roles/role
 
 ### Role Summary
 
-| Role | Mode | Focus |
-|------|------|-------|
-| Architect | PLANNING | Design, planning, ADRs |
-| Developer | EXECUTION | Implementation, tests |
-| QA Engineer | VERIFICATION | Testing, validation |
-| Incident Responder | INCIDENT | RCA, fixes, guards |
-| Data Scientist | RESEARCH | Statistics, experiments |
-| AI Expert | RESEARCH | Algorithms, models |
-| Scientific Editor | PUBLICATION | Papers, documentation |
+| Role               | Mode         | Focus                   |
+| ------------------ | ------------ | ----------------------- |
+| Architect          | PLANNING     | Design, planning, ADRs  |
+| Developer          | EXECUTION    | Implementation, tests   |
+| QA Engineer        | VERIFICATION | Testing, validation     |
+| Incident Responder | INCIDENT     | RCA, fixes, guards      |
+| Data Scientist     | RESEARCH     | Statistics, experiments |
+| AI Expert          | RESEARCH     | Algorithms, models      |
+| Scientific Editor  | PUBLICATION  | Papers, documentation   |
 
 ### Role Activation
 
@@ -303,14 +339,14 @@ INCIDENT → Previous Mode
 
 ### Document Types
 
-| Type | Location | Purpose | Update Frequency |
-|------|----------|---------|------------------|
-| Specification | `docs/specs/` | Define requirements | Per feature |
-| Standard | `.ace/standards/` | Enforce constraints | Rarely (ADR required) |
-| Decision | `docs/adr/` | Record choices | Per decision |
-| RCA | `docs/rca/` | Document issues | Per incident |
-| Plan | `docs/planning/` | Track implementation | Per task |
-| Context | `docs/context/` | Session state | Per session |
+| Type          | Location          | Purpose              | Update Frequency      |
+| ------------- | ----------------- | -------------------- | --------------------- |
+| Specification | `docs/specs/`     | Define requirements  | Per feature           |
+| Standard      | `.ace/standards/` | Enforce constraints  | Rarely (ADR required) |
+| Decision      | `docs/adr/`       | Record choices       | Per decision          |
+| RCA           | `docs/rca/`       | Document issues      | Per incident          |
+| Plan          | `docs/planning/`  | Track implementation | Per task              |
+| Context       | `docs/context/`   | Session state        | Per session           |
 
 ---
 
@@ -330,26 +366,35 @@ ADRs prevent AI from suggesting patterns that conflict with existing decisions.
 # ADR-###: [Title]
 
 ## Status
+
 [Proposed | Accepted | Deprecated | Superseded by ADR-###]
 
 ## Date
+
 [YYYY-MM-DD]
 
 ## Context
+
 [Problem and constraints]
 
 ## Decision
+
 [Specific choice made]
 
 ## Alternatives Considered
+
 [What else was evaluated and why rejected]
 
 ## Consequences
+
 ### Positive
+
 ### Negative
+
 ### Neutral
 
 ## Compliance
+
 [How to verify adherence]
 ```
 
@@ -365,28 +410,36 @@ The **Context Memo Protocol** bridges sessions and prevents context drift.
 # Active Context: [Task Name]
 
 ## Session Metadata
+
 - **Last Updated:** [YYYY-MM-DD HH:MM]
 - **Active Role:** [Current role]
 - **Mode:** [PLANNING | EXECUTION | VERIFICATION | INCIDENT]
 
 ## Current Objective
+
 [Specific goal for this session]
 
 ## Current State
+
 ### Working
+
 ### In Progress
+
 ### Blocked
 
 ## Next Steps
+
 1. [ ] [Immediate task]
 2. [ ] [Following task]
 
 ## Active Constraints
+
 - Standards: [relevant files]
 - ADRs: [relevant files]
 - Guards: [relevant files]
 
 ## Session Notes
+
 [Context that would be lost without documentation]
 ```
 
@@ -489,6 +542,7 @@ core_rules:
 
 ```markdown
 "I am starting a new session with the ACE-Framework. Please:
+
 1. Read .aceconfig for project configuration
 2. Read .ace/roles/roles.md for available roles
 3. Read docs/context/ACTIVE_CONTEXT.md for current state
@@ -507,6 +561,7 @@ core_rules:
 
 ```markdown
 "Update docs/context/ACTIVE_CONTEXT.md with:
+
 - Work completed this session
 - Current blockers
 - Next steps (1-3 specific tasks)
@@ -529,6 +584,7 @@ When transitioning between sessions or agents:
 ## 10. Multi-Agent Coordination
 
 ### Sequential Handoff
+
 ```
 Agent A (Architect) → Agent B (Developer) → Agent C (QA)
                    ↓                     ↓
@@ -536,6 +592,7 @@ Agent A (Architect) → Agent B (Developer) → Agent C (QA)
 ```
 
 ### Parallel Work
+
 ```
 Coordinator assigns separate features to different agents.
 Each maintains separate ACTIVE_CONTEXT_[feature].md.
@@ -577,22 +634,26 @@ Report any violations."
 
 ```markdown
 ## Phase 1: Initialize Structure
+
 - [ ] .ace/ directory with subdirectories created
 - [ ] docs/ directory with subdirectories created
 - [ ] .aceconfig with core rules
 - [ ] README.md with quick start
 
 ## Phase 2: Define Standards
+
 - [ ] .ace/standards/coding.md for your stack
 - [ ] .ace/standards/security.md with constraints
 - [ ] .ace/standards/architecture.md with patterns
 
 ## Phase 3: Record Decisions
+
 - [ ] ADR-001 for tech stack
 - [ ] ADR-002 for architecture pattern
 - [ ] Document existing decisions
 
 ## Phase 4: First Task
+
 - [ ] Create spec in docs/specs/
 - [ ] Initialize ACTIVE_CONTEXT.md
 - [ ] Run complete BMAD cycle
@@ -616,50 +677,50 @@ Then await further instructions."
 
 ## Appendix A: File Quick Reference
 
-| Need To... | Look In... |
-|------------|------------|
-| Understand project rules | `.aceconfig` |
-| Know available roles | `.ace/roles/roles.md` |
-| Check coding standards | `.ace/standards/coding.md` |
-| Check security rules | `.ace/standards/security.md` |
-| Get current context | `docs/context/ACTIVE_CONTEXT.md` |
-| See implementation plan | `docs/planning/implementation_plan.md` |
-| Check architectural decisions | `docs/adr/` |
-| Check regression guards | `docs/rca/regression-guards.yaml` |
-| Understand domain terms | `.ace/knowledge/glossary.md` |
-| Learn a specific skill | `.ace/skills/[skill].md` |
+| Need To...                    | Look In...                             |
+| ----------------------------- | -------------------------------------- |
+| Understand project rules      | `.aceconfig`                           |
+| Know available roles          | `.ace/roles/roles.md`                  |
+| Check coding standards        | `.ace/standards/coding.md`             |
+| Check security rules          | `.ace/standards/security.md`           |
+| Get current context           | `docs/context/ACTIVE_CONTEXT.md`       |
+| See implementation plan       | `docs/planning/implementation_plan.md` |
+| Check architectural decisions | `docs/adr/`                            |
+| Check regression guards       | `docs/rca/regression-guards.yaml`      |
+| Understand domain terms       | `.ace/knowledge/glossary.md`           |
+| Learn a specific skill        | `.ace/skills/[skill].md`               |
 
 ---
 
 ## Appendix B: Mode Quick Reference
 
-| Mode | Role | Entry Trigger | Exit Trigger |
-|------|------|---------------|--------------|
-| PLANNING | Architect | New task/feature | Plan approved |
-| EXECUTION | Developer | Plan approved | Code complete |
-| VERIFICATION | QA Engineer | Code complete | Verification passed |
-| INCIDENT | Incident Responder | Issue discovered | RCA closed |
-| RESEARCH | Data Scientist | Analysis needed | Results documented |
-| PUBLICATION | Scientific Editor | Writing needed | Document complete |
+| Mode         | Role               | Entry Trigger    | Exit Trigger        |
+| ------------ | ------------------ | ---------------- | ------------------- |
+| PLANNING     | Architect          | New task/feature | Plan approved       |
+| EXECUTION    | Developer          | Plan approved    | Code complete       |
+| VERIFICATION | QA Engineer        | Code complete    | Verification passed |
+| INCIDENT     | Incident Responder | Issue discovered | RCA closed          |
+| RESEARCH     | Data Scientist     | Analysis needed  | Results documented  |
+| PUBLICATION  | Scientific Editor  | Writing needed   | Document complete   |
 
 ---
 
 ## Appendix C: Glossary
 
-| Term | Definition |
-|------|------------|
-| **ACE** | AI Context Engine - the `.ace/` directory structure |
-| **ADR** | Architecture Decision Record |
-| **BMAD** | Breakthrough Method for Agile AI-Driven Development |
-| **Context Drift** | Loss of focus/state across AI sessions |
-| **Golden Prompt** | A tested, versioned prompt with known success rate |
-| **Guard** | Regression prevention rule protecting a file |
-| **Invariant** | Condition that must remain true after changes |
-| **RCA** | Root Cause Analysis |
-| **Role** | A defined agent persona with specific expertise |
-| **Skill** | Procedural knowledge for a specific task type |
+| Term              | Definition                                          |
+| ----------------- | --------------------------------------------------- |
+| **ACE**           | AI Context Engine - the `.ace/` directory structure |
+| **ADR**           | Architecture Decision Record                        |
+| **BMAD**          | Breakthrough Method for Agile AI-Driven Development |
+| **Context Drift** | Loss of focus/state across AI sessions              |
+| **Golden Prompt** | A tested, versioned prompt with known success rate  |
+| **Guard**         | Regression prevention rule protecting a file        |
+| **Invariant**     | Condition that must remain true after changes       |
+| **RCA**           | Root Cause Analysis                                 |
+| **Role**          | A defined agent persona with specific expertise     |
+| **Skill**         | Procedural knowledge for a specific task type       |
 
 ---
 
-*ACE-Framework v2.0*
-*Treat AI interactions as structured transactions, not casual conversations.*
+_ACE-Framework v2.0_
+_Treat AI interactions as structured transactions, not casual conversations._

@@ -10,7 +10,9 @@
 **Trigger**: Start of a complex task, or when `Mode` is PLANNING.
 
 **Responsibilities**:
+
 - Analyzing requirements against `docs/context/`.
+- **Conducting the Discuss Phase to capture soft requirements.**
 - Creating or updating `docs/planning/implementation_plan.md`.
 - Defining the "What" and "How" before "Do".
 - Identifying risks and breaking changes.
@@ -22,6 +24,7 @@
 **Output**: `implementation_plan.md`, `ADR-XXXX.md`.
 
 **Activation**:
+
 ```markdown
 "Assume the Architect role. Focus on system design, planning,
 and architectural decisions. Do not write implementation code."
@@ -34,12 +37,13 @@ and architectural decisions. Do not write implementation code."
 **Trigger**: `Mode` is EXECUTION.
 
 **Responsibilities**:
+
 - Writing code that strictly follows the Architect's plan.
 - Updating `docs/planning/task_checklist.md` iteratively.
 - Adhering to `docs/context/system_patterns.md`.
 - Writing unit tests for new code.
 - Following `.ace/standards/coding.md` and `.ace/standards/security.md`.
-- Committing in atomic, reviewable increments.
+- **Committing immediately after each atomic task (No batching).**
 - **Checking `docs/rca/regression-guards.yaml` before modifying any file.**
 - **Ensuring guarded file invariants are maintained.**
 - **Running regression tests for any guarded files modified.**
@@ -47,8 +51,10 @@ and architectural decisions. Do not write implementation code."
 **Output**: Source code, Unit Tests.
 
 **Regression Guard Check**:
+
 ```markdown
 Before modifying any file:
+
 1. Check docs/rca/regression-guards.yaml
 2. If file is guarded, read the associated RCA
 3. Verify changes maintain all invariants
@@ -56,6 +62,7 @@ Before modifying any file:
 ```
 
 **Activation**:
+
 ```markdown
 "Assume the Developer role. Focus on clean implementation
 following the approved plan. Write tests alongside code.
@@ -69,6 +76,7 @@ Check regression guards before modifying files."
 **Trigger**: `Mode` is VERIFICATION.
 
 **Responsibilities**:
+
 - Executing the verification plan.
 - Running smoke tests and integration tests.
 - Creating the `walkthrough.md` artifact.
@@ -82,8 +90,10 @@ Check regression guards before modifying files."
 **Output**: `walkthrough.md`, Bug Reports, Test Results.
 
 **Regression Verification**:
+
 ```markdown
 For each modified file:
+
 1. Check if file has regression guard
 2. Verify invariants are maintained
 3. Confirm regression tests pass
@@ -91,6 +101,7 @@ For each modified file:
 ```
 
 **Activation**:
+
 ```markdown
 "Assume the QA Engineer role. Focus on verification, testing,
 and quality assurance. Think adversarially about what could fail.
@@ -104,6 +115,7 @@ Verify all regression guards are satisfied."
 **Trigger**: `Mode` is INCIDENT. Issue discovered in testing or production.
 
 **Responsibilities**:
+
 - **Applying immediate fix to stop impact.**
 - **Documenting symptoms and evidence.**
 - **Performing 5 Whys root cause analysis.**
@@ -116,6 +128,7 @@ Verify all regression guards are satisfied."
 **Output**: `RCA-XXX.md`, Regression Tests, Regression Guard, Standard Updates.
 
 **RCA Process**:
+
 ```markdown
 1. Document → Capture symptoms, evidence, timeline
 2. Analyze → 5 Whys to root cause
@@ -125,6 +138,7 @@ Verify all regression guards are satisfied."
 ```
 
 **Activation**:
+
 ```markdown
 "Assume the Incident Responder role. Focus on root cause analysis
 using the skill in .ace/skills/root-cause-analysis.md. Create a
@@ -138,6 +152,7 @@ complete RCA with regression prevention measures."
 **Trigger**: Analysis of experimental results, statistical validation.
 
 **Responsibilities**:
+
 - Acting as a research advisor.
 - Applying strict statistical methods (hypothesis testing, confidence intervals).
 - Interpreting quantitative metrics (Fidelity, Stability) in the context of the thesis.
@@ -148,6 +163,7 @@ complete RCA with regression prevention measures."
 **Output**: Statistical reports, Jupyter Analysis Notebooks, Experimental Designs.
 
 **Activation**:
+
 ```markdown
 "Assume the Data Scientist role at PhD level. Apply rigorous
 statistical methods and research methodology. Challenge assumptions
@@ -161,6 +177,7 @@ with data-driven analysis."
 **Trigger**: Deep dive into algorithmic behavior, model architecture discussions.
 
 **Responsibilities**:
+
 - Advising on the theoretical underpinnings of XAI methods (Shapley values, Optimization).
 - Diagnosing complex algorithmic failures (e.g., convergence issues in DiCE).
 - Suggesting advanced configurations or alternative SOTA methods.
@@ -170,6 +187,7 @@ with data-driven analysis."
 **Output**: Technical Deep-Dives, Algorithmic Complexity Analysis, Architecture Recommendations.
 
 **Activation**:
+
 ```markdown
 "Assume the AI Expert role at PhD level. Focus on algorithmic
 theory, model architecture, and state-of-the-art methods.
@@ -183,6 +201,7 @@ Provide deep technical analysis."
 **Trigger**: Preparation of publication materials (Papers, Thesis).
 
 **Responsibilities**:
+
 - Transforming raw results into publication-ready narratives.
 - Ensuring academic tone, clarity, and precision.
 - Structuring arguments to support research hypotheses.
@@ -193,6 +212,7 @@ Provide deep technical analysis."
 **Output**: Draft Papers, Thesis Chapters, Presentation Materials.
 
 **Activation**:
+
 ```markdown
 "Assume the Scientific Editor role. Focus on academic writing,
 clarity, and publication standards. Transform technical content
@@ -204,6 +224,7 @@ into compelling narratives."
 ## Role Transitions
 
 ### PLANNING → EXECUTION
+
 ```
 Architect completes → Developer begins
 Handoff: implementation_plan.md approved
@@ -211,6 +232,7 @@ Pre-check: Regression guards reviewed
 ```
 
 ### EXECUTION → VERIFICATION
+
 ```
 Developer completes → QA Engineer begins
 Handoff: Code committed, tests written
@@ -218,6 +240,7 @@ Pre-check: Regression tests identified
 ```
 
 ### Issue Discovered → INCIDENT
+
 ```
 Any Role → Incident Responder
 Trigger: Bug, failure, or vulnerability discovered
@@ -225,6 +248,7 @@ Output: RCA document with prevention measures
 ```
 
 ### INCIDENT → Return to Previous Mode
+
 ```
 Incident Responder completes → Previous Role resumes
 Handoff: RCA closed, guards in place
@@ -232,6 +256,7 @@ Pre-check: Regression tests passing
 ```
 
 ### Research Workflow
+
 ```
 AI Expert (theory) → Data Scientist (experiments) → Scientific Editor (publication)
 ```
@@ -240,14 +265,14 @@ AI Expert (theory) → Data Scientist (experiments) → Scientific Editor (publi
 
 ## Mode Reference
 
-| Mode | Primary Role | Focus |
-|------|--------------|-------|
-| PLANNING | Architect | Design & Planning |
-| EXECUTION | Developer | Implementation |
-| VERIFICATION | QA Engineer | Testing & Validation |
-| INCIDENT | Incident Responder | RCA & Prevention |
-| RESEARCH | Data Scientist / AI Expert | Analysis & Theory |
-| PUBLICATION | Scientific Editor | Writing & Documentation |
+| Mode         | Primary Role               | Focus                   |
+| ------------ | -------------------------- | ----------------------- |
+| PLANNING     | Architect                  | Design & Planning       |
+| EXECUTION    | Developer                  | Implementation          |
+| VERIFICATION | QA Engineer                | Testing & Validation    |
+| INCIDENT     | Incident Responder         | RCA & Prevention        |
+| RESEARCH     | Data Scientist / AI Expert | Analysis & Theory       |
+| PUBLICATION  | Scientific Editor          | Writing & Documentation |
 
 ---
 
@@ -256,6 +281,7 @@ AI Expert (theory) → Data Scientist (experiments) → Scientific Editor (publi
 **All roles must follow this protocol:**
 
 ### Before Modifying Files
+
 ```markdown
 1. Check docs/rca/regression-guards.yaml
 2. Identify any guards on files to be modified
@@ -264,6 +290,7 @@ AI Expert (theory) → Data Scientist (experiments) → Scientific Editor (publi
 ```
 
 ### During Modification
+
 ```markdown
 1. Ensure all invariants remain true
 2. Do not remove or weaken existing protections
@@ -271,6 +298,7 @@ AI Expert (theory) → Data Scientist (experiments) → Scientific Editor (publi
 ```
 
 ### After Modification
+
 ```markdown
 1. Run all regression tests for guarded files
 2. Verify invariants in code review
@@ -289,4 +317,4 @@ AI Expert (theory) → Data Scientist (experiments) → Scientific Editor (publi
 
 ---
 
-*BMAD Agentic Roles - ACE-Framework v2.0*
+_BMAD Agentic Roles - ACE-Framework v2.0_
